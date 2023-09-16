@@ -3,11 +3,13 @@
     <router-view />
     <tab-bar v-if="!route.meta.hideTabBar"/>
     <!-- <tab-bar /> -->
+    <loading />
   </div>
 </template>
 
 <script setup>
 import TabBar from "@/components/tab-bar/index.vue"
+import Loading from '@/components/loading/index.vue'
 import { useRoute } from "vue-router";
 
 const route = useRoute()
