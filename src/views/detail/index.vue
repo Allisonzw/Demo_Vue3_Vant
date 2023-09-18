@@ -9,6 +9,12 @@
     />
     <div class="main" v-if="mainPart">
       <detail-swiper :swipe-data="mainPart.topModule.housePicture.housePics"/>
+      <detail-infos :top-infos="mainPart.topModule" />
+      <detail-facility name="设施" :ref="getSectionRef" :house-facility="mainPart.dynamicModule.facilityModule.houseFacility"/>
+      <detail-landlord name="房东" :ref="getSectionRef" :landlord="mainPart.dynamicModule.landlordModule"/>
+      <detail-comment name="评论" :ref="getSectionRef" :comment="mainPart.dynamicModule.commentModule"/>
+      <detail-notice name="须知" :ref="getSectionRef" :order-rules="mainPart.dynamicModule.rulesModule.orderRules"/>
+      <detail-map />
     </div>
   </div>
 </template>
@@ -17,7 +23,14 @@
 import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getDetailInfos } from '@/services/index.js'
-import DetailSwiper from './components/detail-swipe.vue'
+
+import DetailSwiper from './components/detail_01-swipe.vue'
+import DetailInfos from './components/detail_02-infos.vue'
+import DetailFacility from './components/detail_03-facility.vue'
+import DetailLandlord from './components/detail_04-landlord.vue'
+import DetailComment from './components/detail_05-comment.vue'
+import DetailNotice from "./components/detail_06-notice.vue"
+import DetailMap from './components/detail_07-map.vue'
 import { showDialog } from 'vant';
 
 const route = useRoute()
