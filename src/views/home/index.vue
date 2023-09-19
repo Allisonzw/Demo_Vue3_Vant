@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" ref="homeRef">
     <van-nav-bar title="牛马旅途" />
     <div class="banner">
       <img src="@/assets/img/home/banner.webp" alt="">
@@ -13,8 +13,11 @@
   </div>
 </template>
 
+<script>
+  export default { name: "home" }
+</script>
 <script setup>
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, onActivated } from 'vue'
 import useHomeStore from '@/stores/modules/home';
 import homeSearchBox from './components/home-search-box.vue';
 import homeCategories from './components/home-categories.vue';
@@ -52,7 +55,8 @@ homeStore.fetchGetHouseListData()
 //   homeStore.fetchGetHouseListData()
 // })
 
-const { isReachBottom, scrollTop } = useScroll()
+const homeRef = ref()
+const { isReachBottom, scrollTop } = useScroll(homeRef)
 watch(isReachBottom, (newValue) => {
   if (newValue) {
     homeStore.fetchGetHouseListData().then(() => {
@@ -72,11 +76,21 @@ const isShowSearchBar = computed(() => {
   return scrollTop.value > 350
 })
 
+// 跳转回home时, 保留原来的位置
+onActivated(() => {
+  homeRef.value?.scrollTo({
+    top: scrollTop.value
+  })
+})
 </script>
 
 <style lang="less" scoped>
 .home {
   --van-nav-bar-title-text-color: #ff9854;
+  padding-bottom: 60px;
+  height: 100vh;
+  overflow-y: auto;
+  box-sizing: border-box;
   padding-bottom: 60px;
 }
 
